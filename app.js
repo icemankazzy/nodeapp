@@ -6,6 +6,7 @@ const google = require('googleapis')
 const drive = google.drive('v3')
 const bodyParser = require('body-parser')
 const multer = require('multer')
+const upload = multer()
 const fs = require('fs')
 const cors = require('cors')
 var app = express();

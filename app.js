@@ -14,30 +14,6 @@ app.use(bodyParser.json())
 app.use(cors())
 const privatekey  = require("./utils/My Project 92371-ea52dc4de173.json");
 
-/***var storage = multer.diskStorage({
-	destination: function(req, file, callback) {
-		callback(null, './uploads')
-	},
-	filename: function(req, file, callback) {
-		callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-	}
-})**/
-
-function emptyFiles(){
-//deleting files in uploads folder
-fs.readir('./uploads', (err,files) =>{
-	if(err) throw err;
-
-	if(files.length>=5){
-		console.log('deleting happening!')
-		for(const file of files){
-			fs.unlink(path.join('./uploads', file), err => {
-				if(err) throw err;
-			})
-		}
-	} else {console.log('Sowwy, nothing to delete!')}
-})
-}
 
 var jwtClient = new google.auth.JWT(
 privatekey.client_email,
@@ -97,23 +73,11 @@ app.get('/', function(req, res) {
 });
 
 app.post("/api/upload", upload.any(), (req, res, next) => {
-	/**var upload = multer({
-		storage: storage
-	}).single('file')
-	
-	upload(req, res, function(err) {
-		var bitmap = fs.createReadStream('./uploads/' + req.file.filename);
-		//console.log(bitmap)
-	var uu = uploadG(bitmap,req.file.filename); 
+		var uu = uploadG(req.files[0].buffer,req.body.name);
 	uu.then(fileId => {
-        emptyFiles();
 		res.json({'fileId':fileId});
 		console.log('fileId from promise:', fileId);
-	}).catch(function(error){console.log(error)})
-	})**/
-	console.log('The files ',JSON.stringify(req.files));
-	console.log('The body: ',JSON.stringify(req.body));
-	res.json({fileId:'file receved by server'});
+	}).catch(function(error){console.log(error);res.json({fileId:'file error sowwy!'});}) 	
 })
 
 // Listen

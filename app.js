@@ -13,14 +13,14 @@ app.use(bodyParser.json())
 app.use(cors())
 const privatekey  = require("./utils/My Project 92371-ea52dc4de173.json");
 
-var storage = multer.diskStorage({
+/***var storage = multer.diskStorage({
 	destination: function(req, file, callback) {
 		callback(null, './uploads')
 	},
 	filename: function(req, file, callback) {
 		callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
 	}
-})
+})**/
 
 function emptyFiles(){
 //deleting files in uploads folder
@@ -95,8 +95,8 @@ app.get('/', function(req, res) {
   res.json({hello:'Hello App!'});
 });
 
-app.post("/api/upload", (req, res, next) => {
-	var upload = multer({
+app.post("/api/upload", upload.any(), (req, res, next) => {
+	/**var upload = multer({
 		storage: storage
 	}).single('file')
 	
@@ -109,7 +109,10 @@ app.post("/api/upload", (req, res, next) => {
 		res.json({'fileId':fileId});
 		console.log('fileId from promise:', fileId);
 	}).catch(function(error){console.log(error)})
-	})
+	})**/
+	console.log('The files ',JSON.stringify(req.files));
+	console.log('The body: ',JSON.stringify(req.body));
+	res.json({fileId:'file receved by server'});
 })
 
 // Listen

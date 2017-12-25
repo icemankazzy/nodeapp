@@ -39,9 +39,9 @@ var fileMetadata = {
 	name: name,
 	parents: ['1gxj0h4q37VqNx9jEzu0AfytGasfyxQYQ']
 }
-	
+
 var media = {
-mimeType: 'image/*',
+mimeType: 'video/*',
 body: data
 };
 
